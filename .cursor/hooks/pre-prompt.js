@@ -1,30 +1,17 @@
-import { readFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
-import path from 'node:path';
+// Redact and inject secrets
+const secrets = {
+  IDEOGRAM_KEY: "YOUR_IDEOGRAM_API_KEY_HERE",
+  X_API_KEY: "YOUR_X_API_KEY",
+  X_API_SECRET: "YOUR_X_API_SECRET",
+  X_ACCESS_TOKEN: "YOUR_X_ACCESS_TOKEN",
+  X_ACCESS_SECRET: "YOUR_X_ACCESS_SECRET"
+};
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const rulesPath = path.join(__dirname, '..', 'rules.md');
-
-export default async function prePrompt({ prompt = '' }) {
-  let rules = '';
-
-  try {
-    rules = await readFile(rulesPath, 'utf8');
-  } catch (error) {
-    rules = 'Unable to load Forge rules. Continue with best available guidance.';
+for (const [key, value] of Object.entries(secrets)) {
+  if (prompt.includes(`{{${key}}}`)) {
+    prompt = prompt.replace(`{{${key}}}`, value);
   }
-
-  const banner = [
-    'You are Forge v1.0 — an autonomous meme-coin launch system for Solana.',
-    'Follow the operating rules below and keep responses energetic yet precise.',
-    '',
-    rules.trim(),
-    '',
-    '---',
-    ''
-  ].join('\n');
-
-  return `${banner}${prompt}`;
+  process.env[key] = value;
 }
 
+Return "Secrets injected — ready to forge."
