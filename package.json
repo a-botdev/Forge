@@ -1,0 +1,22 @@
+{
+  "name": "forge",
+  "version": "1.0.0",
+  "description": "Forge v1.0 – full Solana meme-coin launch system.",
+  "type": "module",
+  "scripts": {
+    "lint": "echo \"No lint step configured\"",
+    "images": "node scripts/ideogram-api.js",
+    "resize": "node scripts/resize-sharp.js",
+    "twitter:preview": "node scripts/twitter-api.js --preview",
+    "twitter:publish": "node scripts/twitter-api.js --publish"
+  },
+  "dependencies": {
+    "sharp": "^0.33.0",
+    "twitter-api-v2": "^1.16.0",
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "license": "MIT"
+}
